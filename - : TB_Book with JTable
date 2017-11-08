@@ -1,0 +1,40 @@
+//Table "TB_Book"'s All of Record Road to JTable
+
+public class Load_JTable_from_DB extends JFrame {
+  JButton jButton_Load = new JButton ("LOAD");
+  JTable jTable = new JTable (new DefaultTableModel (new Object[][]{}, new String[] {"ID", "Title", "Author"}));
+  public Load_JTable_from_DB () {
+    setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
+    setLayout (new BorderLayout());
+    JPanel jpanel_North = new JPanel (new FlowLayout());
+    jPanel_North.add (jButton_Load);
+    jButton_Load.addActionListner (this);
+    add (jPanel_North, BorderLayout.NORTH);
+    add (new JScrollPane (jTable), BorderLayout.CENTER);
+    pack ();
+  }
+  public static void main (String[] args) {
+    SwingUtilities.invokeLater (new Runnable() {
+      @Override
+      public void run () {
+        new Load_JTable_from_DB().setVisible (true);
+      }
+    });
+  }
+  @Override
+  
+  public void actionPerformed (ActionEvent e) {
+    try {
+      Class.forName("com.mysql.jdbc.Driver");
+      Connection DB = DriverManager.getConnection ("jdbc:mysql://localhost:3306/DB_Book", "root", "1234);
+      Statement sql = DB.createStatement ();
+      ResultSet cursor = sql.excuteQuery ("select id, title author from TB_Book");
+      DefaultTableModel tableModel = (DefaultTableModel) jTable.getModel ();
+      tableModel.setRowCount (0);
+      while (cursor.next ()) {
+        tableModel.addRow (new String [] {cursor.getString (1), cursor.getString (2), cursor.getString (3)});
+      }
+    }catch (Exception e1) {
+    }
+  }
+}
