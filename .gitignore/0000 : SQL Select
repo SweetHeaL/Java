@@ -1,0 +1,14 @@
+public class DB_Select {
+  public static void main (String [] args) {
+    try {
+      Class.forName ("com.mysql.jdbc.Driver");
+      Connection DB=DriverManager.getConnection ("jdbc:mysql://localhost:3306/DB_Univ","root","1234");
+      Statement sql = DB.createStatement ();
+      ResultSet cursor = sql.executeQuery ("select id,name,department from TB_Student");
+      while (cursor.net()) {
+        System.out.println (cursor.getString (1) + "\t" + cursor.getString (2)) + "\t" + cursor.getString (3));
+      }
+    }catch (Exception e) {
+    }   
+  }
+}
